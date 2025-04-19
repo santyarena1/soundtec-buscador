@@ -4,10 +4,7 @@ from db import get_connection
 from routes.base_datos_routes import base_datos_bp
 from routes.buscar_producto import buscar_bp
 from routes.macaio_routes import macaio_bp
-
-
-
-
+import os
 
 
 app = Flask(__name__)
@@ -50,5 +47,5 @@ def agregar_carrito():
     session['carrito'] = carrito
     return '', 204
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
