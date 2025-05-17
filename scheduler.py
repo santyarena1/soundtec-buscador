@@ -20,3 +20,4 @@ print("🛠️ Programador iniciado. Esperando a la hora programada...\n")
 while True:
     schedule.run_pending()
     time.sleep(60)  # Espera 1 minuto entre chequeos
+    #HOLA

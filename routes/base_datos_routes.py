@@ -44,3 +44,4 @@ def cantidad():
         cantidad = cur.fetchone()[0]
     conn.close()
     return jsonify({"cantidad": cantidad})
+#HOLA
