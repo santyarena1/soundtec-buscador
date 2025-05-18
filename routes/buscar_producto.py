@@ -110,10 +110,45 @@ def buscar_producto():
 
                 resultados.append(producto)
 
+            # Buscar en Soundtube
+            cur.execute("""
+                SELECT sku, descripcion, retail_usa, supdist_usa, supdist_china, color,
+                    upc, coo, url, product_line, categoria, tipo
+                FROM productos_soundtube
+                WHERE LOWER(sku) LIKE LOWER(%s) OR LOWER(descripcion) LIKE LOWER(%s)
+                LIMIT 10
+            """, (f"%{query}%", f"%{query}%"))
+
+            for row in cur.fetchall():
+                extra = get_extra_data(row[0], "Soundtube")  # row[0] = sku
+
+                producto = {
+                    "codigo": row[0],                    # SKU
+                    "articulo": row[0],                  # Nombre visible
+                    "precio": row[3],                    # supdist_usa
+                    "origen": "Soundtube",
+                    "mup": extra.get("mup", 1.3),
+                    "iva": extra.get("iva", 21),
+                    "descripcion_extra": row[1],         # Mismo que el nombre
+                    "imagen_url": extra.get("imagen_url", ""),
+                    "detalles": {
+                        "marca": row[9],                 # product_line
+                        "categoria": row[10],
+                        "descripcion_larga": extra.get("detalles_extra", {}).get("descripcion_larga", ""),
+                        "descuento": extra.get("detalles_extra", {}).get("descuento", 0)
+                    }
+                }
+                # 🔄 Fusionar datos extra si existen
+                producto["detalles"].update(extra.get("detalles_extra", {}))
+
+                resultados.append(producto)
 
 
 
-#HOLA
+
+
+        
+
     finally:
         conn.close()
 
