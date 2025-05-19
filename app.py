@@ -4,6 +4,8 @@ from db import get_connection
 from routes.base_datos_routes import base_datos_bp
 from routes.buscar_producto import buscar_bp
 from routes.macaio_routes import macaio_bp
+#from routes.soundtube_routes import soundtube_bp
+
 import os
 
 
@@ -48,4 +50,6 @@ def agregar_carrito():
     return '', 204
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
+    app.run(debug=False, host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
+
+
